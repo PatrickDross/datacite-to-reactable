@@ -1,46 +1,52 @@
 ################## from data.cite to reactable data-citation-list ########################
-# Patrick Dross, 01.07.2020
+# Patrick Dross, 01.08.2020
 # 
 
 # remove (almost) everything in the working environment
 # You will get no warning, so don't do this unless you are really sure:
-# remove(list = ls())
+remove(list = ls())
 
 
 # install and load libraries:
 
-install.packages("jsonlite")
-install.packages("dplyr")
-install.packages("reactable")
-install.packages("curl")
+# install.packages("jsonlite")
+# install.packages("dplyr")
+# install.packages("reactable")
+# install.packages("curl")
 library(jsonlite)
 library(dplyr)
 library(reactable)
 library(curl)
 
 
-# creating doi vector (WZB 1:21 - 10.06.2021 - from: https://data.gesis.org/sharing/#!Home)
-doi_vector <- c("https://doi.org/10.7802/1462",
+# creating doi vector (WZB 1:26 - 02.08.2021 - from: https://data.gesis.org/sharing/#!Home)
+doi_vector <- c("https://doi.org/10.7802/1209",
+                "https://doi.org/10.7802/1462",
                 "https://doi.org/10.7802/1422",
                 "https://doi.org/10.7802/1.1929",
-                "https://doi.org/10.7802/2122",
+                "https://doi.org/10.7802/2042",
+                "https://doi.org/10.7802/2122", # version 1.1.0 from https://doi.org/10.7802/2042 #
                 "https://doi.org/10.7802/2125",
                 "https://doi.org/10.7802/1.2130",
                 "https://doi.org/10.7802/1.2121",
                 "https://doi.org/10.7802/1.2010",
                 "https://doi.org/10.7802/2041",
                 "https://doi.org/10.7802/1481",
-                "https://doi.org/10.7802/2259", #old version: https://doi.org/10.7802/2104#
+                "https://doi.org/10.7802/2104",
+                "https://doi.org/10.7802/2259", # version 2.0.0 from https://doi.org/10.7802/2104 #
                 "https://doi.org/10.7802/1.2007",
                 "https://doi.org/10.7802/1.1960",
                 "https://doi.org/10.7802/1447",
-                "https://doi.org/10.7802/1209",
                 "https://doi.org/10.7802/1.2031",
                 "https://doi.org/10.7802/1.1989",
                 "https://doi.org/10.7802/1996",
                 "https://doi.org/10.7802/2039",
                 "https://doi.org/10.7802/2241",
-                "https://doi.org/10.7802/2256")
+                "https://doi.org/10.7802/2256",
+                "https://doi.org/10.7802/2278",
+                "https://doi.org/10.7802/2279",
+                "https://doi.org/10.7802/2280")
+
 
 # extracting dois
 doi_vector2 <- substring(doi_vector, first=17, last=50)
@@ -91,7 +97,7 @@ version_cor[version == "1"]    <- "1.0.0"
 version_cor[version == "1.0"]    <- "1.0.0"
 
 # correcting name2 (https://doi.org/10.7802/1209)!
-name2[15] <- substring(name2[15], first=1, last=170)
+name2[1] <- substring(name2[1], first=1, last=170)
 
 # ID
 id   <-  c(1:length(doi_vector))
@@ -101,7 +107,7 @@ data <- data.frame(doi_vector, year, title, version_cor, created, author1, autho
 
 # sort by year
 data_sort <- data %>%
-  arrange(desc(year))
+  arrange(desc(created))
 
 # add ID
 data_final <- cbind(id, data_sort)
@@ -117,7 +123,7 @@ for (i in 1:length(doi_vector)) {
                    data_final$title[i],
                    ". Version ",
                    data_final$version_cor[i],
-                   ". Wissenschaftszentrum Berlin f?r Sozialforschung. Dataset. DOI: ",
+                   ". Wissenschaftszentrum Berlin für Sozialforschung. Dataset. DOI: ",
                    data_final$doi_vector[i], ".",
                    sep = ""))
 }

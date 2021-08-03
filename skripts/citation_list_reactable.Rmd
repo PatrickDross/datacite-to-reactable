@@ -11,7 +11,7 @@ Das WZB hat eine Kooperation mit dem GESIS-Leibniz-Institut für Sozialwissensch
 
 ```{r cars, include=FALSE}
 # set working directory:
-setwd("/Users/dross/Nextcloud/R")
+setwd("/Users/nepowank/Dropbox/R/datacite-to-reactable/")
 
 # install and load packages:
 # install.packages("dplyr", repos = "http://cran.us.r-project.org")
@@ -20,7 +20,7 @@ library(dplyr)
 library(reactable)
 
 # load data from *.csv
-data_final <- read.csv("data_cite.csv")
+data_final <- read.csv("data/data_cite.csv")
 
 # prepare data:
 data_tab <- data_final %>%
@@ -41,9 +41,9 @@ reactable(data_tab, filterable = TRUE,
                     bordered = TRUE, 
                     striped = TRUE,
                     highlight = TRUE,
-                    defaultPageSize = 10, showPageSizeOptions = TRUE, 
+                    defaultPageSize = 30, showPageSizeOptions = TRUE, 
                     showSortable = TRUE,
-                    pageSizeOptions = c(10, 20, 30, 40, 50),
+                    #pageSizeOptions = c(10, 20, 30, 40, 50),# #pageSizeOptions = c(10, 20, 30, 40, 50)#
                     defaultSortOrder = "desc",
                     columns = list(
                     DOI = colDef(html = TRUE, minWidth = 170),
